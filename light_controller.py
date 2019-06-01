@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+# light_controller.py
+# -- This is a demo program for AWS IoT Shadow
+# -- It simulates a light controller that's connected to AWS IoT Core and use Shadow to control a light
+# Author: Randy Lin
+
 import json
 import time
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
@@ -7,7 +12,7 @@ import logging
 import random
 import time
 
-logging.basicConfig(level = logging.INFO)
+logging.basicConfig(format="%(asctime)s %(levelname)s [%(name)s] %(message)s", level = logging.INFO)
 
 #Load configuration from config.ini
 config = configparser.ConfigParser()
