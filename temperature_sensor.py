@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+# temperature_sensor.py
+# -- This is a demo program for AWS IoT MQTT Topic
+# -- It simulates a temperature sensor that's connected to AWS IoT Core and publish sensor data to a specific MQTT topic
+# Author: Randy Lin
+
 import json
 import time
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
