@@ -8,11 +8,8 @@ import json
 import time
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 import configparser
-import logging
 import random
 import time
-
-logging.basicConfig(format="%(asctime)s %(levelname)s [%(name)s] %(message)s", level = logging.INFO)
 
 #Load configuration from config.ini
 config = configparser.ConfigParser()
@@ -32,7 +29,7 @@ shadowc.configureCredentials(
 
 #Connect to IoT Core
 shadowc.connect()
-logging.info('Shadow Client Connected to IoT Core')
+print('Shadow Client Connected to IoT Core')
 
 #Create Device Shadow Handler with persistent subscription
 deviceShadowHandler = shadowc.createShadowHandlerWithName('Light1', True)
@@ -40,13 +37,13 @@ deviceShadowHandler = shadowc.createShadowHandlerWithName('Light1', True)
 #Callback: Shadow Update
 def shadow_update_callback(payload, responseStatus, token):
     if responseStatus == 'timeout':
-        logging.error(f'Shadow Update Request {token} time out!')
+        print(f'Shadow Update Request {token} time out!')
     if responseStatus == 'accepted':
-        logging.info(f'Shadow Update Request {token} accepted.')
+        print(f'Shadow Update Request {token} accepted.')
         payloadDict = json.loads(payload)
-        logging.info(payloadDict)
+        print(payloadDict)
     if responseStatus == 'rejected':
-        logging.info(f'Shadow Update Request {token} rejected.')
+        print(f'Shadow Update Request {token} rejected.')
 
 print('Welcome to light controller')
 color_to_change = input('What color to change? ')
@@ -57,6 +54,6 @@ if color_to_change != "":
     desired_state['state']['desired']['color'] = color_to_change
 if brightness_to_change != "":
     desired_state['state']['desired']['brightness'] = brightness_to_change
-logging.info(desired_state)
+print(desired_state)
 
 deviceShadowHandler.shadowUpdate(json.dumps(desired_state), shadow_update_callback, 5)
