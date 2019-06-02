@@ -40,19 +40,15 @@ deviceShadowHandler = shadowc.createShadowHandlerWithName('Light1', True)
 
 #Callback: Shadow Update
 def shadow_update_callback(payload, responseStatus, token):
-    print('========= Shadow Update Callback Begin ========')
     if responseStatus == 'timeout':
         print(f'Shadow Update Request {token} time out!')
     if responseStatus == 'rejected':
         print(f'Shadow Update Request {token} rejected.')    
     if responseStatus == 'accepted':
         print(f'Shadow Update Request {token} accepted.')
-    print('========= Shadow Update Callback End ========')
 
 #Callback: Shadow Get for Device Initialization
 def shadow_get_init_callback(payload, responseStatus, token):
-    print('========= Shadow Get Callback for Device Initialization Begin ========')
-
     global device_state_color
     global device_state_brightness
 
@@ -84,6 +80,8 @@ def shadow_get_init_callback(payload, responseStatus, token):
             input('Now you can check the shadow document in AWS Console before I update it. Press Enter to continue.')
         else:
             print("There's no delta in Shadow, so report the initial state")
+            device_state_color = payloadDict['state']['reported']['color']
+            device_state_brightness = payloadDict['state']['reported']['brightness']
 
     #Report Current State to Shadow
     current_device_state = {
@@ -95,15 +93,13 @@ def shadow_get_init_callback(payload, responseStatus, token):
             "desired" : None
         }
     }
+    print(json.dumps(current_device_state, indent=4))
     deviceShadowHandler.shadowUpdate(json.dumps(current_device_state), shadow_update_callback, 5)
     print('Completed Device Initialization.')
-    print('========= Shadow Get Callback for Device Initialization End ========')
 
     
 #Callback: Shadow Delta
 def shadow_delta_callback(payload, responseStatus, token):
-    print('========= Shadow Delta Callback Begin ========')
-
     global device_state_color
     global device_state_brightness
 
@@ -133,7 +129,6 @@ def shadow_delta_callback(payload, responseStatus, token):
     }
     print('Report current status to shadow')
     deviceShadowHandler.shadowUpdate(json.dumps(current_device_state), shadow_update_callback, 5)
-    print('========= Shadow Delta Callback End ========')
 
 #Main
 #Register Callback for Shadow Delta
