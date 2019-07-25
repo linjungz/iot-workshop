@@ -36,7 +36,7 @@ logging.info('MQTT Client Connected to IoT Core')
 
 #Callback: MQTT Subscribe
 def mqtt_subscribe_callback(client, userdata, message):
-  logging.info(f'Received message on topic {message.topic} from {client} :')
+  logging.info(f'Received message on topic {message.topic} :')
   logging.info(message.payload)
 
 #Register callback for MQTT Subscribe
