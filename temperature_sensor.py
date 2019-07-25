@@ -38,7 +38,7 @@ logging.info('MQTT Client Connected to IoT Core')
 
 #Sensor data is randomized between 20 to 40
 temp_val_min = 20
-temp_val_max = 30
+temp_val_max = 40
 
 while True:
   temp_val = "{0:.1f}".format(random.uniform(temp_val_min, temp_val_max))
